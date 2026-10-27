@@ -1,0 +1,129 @@
+name: Build TaytIsland (.deb)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Unpack embedded sources
+        run: |
+          base64 --decode > src.tgz <<'B64'
+          H4sIAAAAAAAAA+08a3PiuJb9dfkVGvbuFOQmBvKgp8ijmwBJuJ0QKibT25vKTRlbBE2M5bVE6OxU
+          V+2P2F+4v2TPkWxjE0O68+ruHU7NdIweR0fSeUrHPrFu6IC59M0LQhmgurmp/gLM/i1vbZXfVLbW
+          35Yr1Y2NDWhXqayvl9+Q8ksSFcFYSCsg5E3AuVzU7qH6nxToZ58HktTPGkcm2SVWMKpu6n9pLqzr
+          1c8OWz2oZP6Qe7Rmu5Z3XXMtSYWsVapGOW541Do1r7r1xof6YevKbBy1Tlrk3S7BpRsyh+ZyzLPd
+          sUPJ3wqqbbE0CtlPlGw+GnHPGN3kcr2PrfqHq04deu+SnnUn2wKGdKAifr46aB+3kODehFo3xudk
+          VePguH6IdWsD3v/DXrMCO9XzDBB/PD37gE3O2x+YvEfX1Un9Qwsm0jsqlqQaAMkyz/e7Z6f/aDV6
+          Jvn7LukGdCAW9bSurwN6DcuEvb/3Ps8Dm3sy4O6LjvGQ/G9Wtqbyv15F+a9UN5fy/xrQtewb65rW
+          CMif4XFxwyaTiSFBXJgWuo41gtqEFP5OA8G4VyNlowKyXw/sIZPUluMA2mkVwcWaUiG5JhV2wHyp
+          2ps3zCN3fByQ5p1njZhNNEYyYXJILGLDVvARYSOgZ5WIoeVTgtU2d3lg5E4s5kn4nwY10jk1P7SB
+          0Fx9LIc8WWACJWo0pRgEUOBTzxE1MuJ91DPjvpAByOQqGbBgNLECSgp7uwTVWPGHFdIXhOnGGr7L
+          xIuw+EPyD+KesP9QXlmvvq0u5f814M8cAThgrqQB2EP9E2F/7DkgL1BWIHlUDpbvu9QQfsC86z63
+          AidPituq+Zft3Je/ouz8f4DQf3rRMRbLf6W8VU3a/w20/+WNylL+XwNKpYRtJ//73/9DxNPMNCDs
+          gitA+C0NXOuOgNoIuGUPa9B1yK6Hay69pS7xLSHYLQWknsMnRDApVBcihzQaELxnMOWIEX+JIZ8I
+          Va2GJvaQC+oRINakUoJSEgbpcAL66RbsOzGVotpHRUUgYhECdJlHqUMdI5f7VzZSEcuO8v9L6l9j
+          uDct97hkgzssygF/SFiEjmlKxEhWwGUWktwo/7/dBAX5Pj/Hecpvz+3dGEIQRZ1FvUs+jmDrhoAq
+          9x4cIBoMLJuSXts8sTxYhoCA82Oe9v8Avyf3d1JggN3ybCrvfFqEzQmos51bI4VbzpyioHLsT38G
+          1OUWVL+nGFy9h7m7dEQ9pJh7ySG0VThvf9SbtXIVbu52WN7GDfmdUaxi0TMahTkUhQjDtUkMtDLa
+          jkodJnxL2sMrDn2vJJF6sFRx4Ve5Sv75JxnBMl4k0Hh0crlNvoTmKYBZBx4ZKYJg7tE8TJt6lKwU
+          LfAYb6n+pQkb8ACbhQ0E8th5uw72j9lqbQw9jWQJbKsHW0Ad1UkUYzvKBqRwASjEBxj0dNBAVqyl
+          SDAUe16SX3+NO6nVMRRhCr0pkaV3MV5VXerpmgMOohJwsNiqghZTiML535u32P5+ky0+RFVY7TE3
+          2rYpB4e7hINFnFgkf5ILQd0B0UwN268xABvkUtwbzVP92Q07JVjgcjtGrtoUSTQGtr6IhcByXW5f
+          wmox+REUYwJ5TSTwUFfQcHG+Cs9BgPFW4/AM1vc/aMABTS7Z2dAK81gp0d3p8qmCYkVZ1G09HurN
+          PnRTOhOlaixIH2xdiYShXQrvWNCgjfrFUgFUy7P6rtJPndNtkgLA61FU1WKCxE8idX1NBQaBIo23
+          DwGm5s0GGgh15qKegBOoFajH7XSXIXMc0Oy75FPL3I52D1VKQx9WuKgpglsbF/JehZJ9zUK3tnEL
+          ld9AQtxl0WqkiUW/YIaEXcQT7VusD8Ntn+rKxM6HFE8bo4hJUMUn3KGK3miIsMy0LZfWhQ9cAr67
+          e7+7y3zR4/s4aRGt5EwboJ7CEvAAQurGOLjFgW4a9ca0AAdk3piPQ6G8iNaHWI5jjvv4WJtijHj1
+          omN20H6G6qJBcSENhw6ssSv1L0Rw2odFhlWsKRGEf2AyEMu/j54KWpSn2sVD0UjppiZztCE1FXvv
+          W8FpwCILlqSBcGUha6BPYipT6iKpZHRZQsv8MlUzoVbRKDrmOUyhqScmyIqj9nimdEbAzTGTVB2q
+          RB5EuPn7p6fHqDBiVrtwQqpBvX+gd7X3+bAuf0neYW2fczejrhYzaYgSz16bbaJRpjphjZbefEiF
+          w8eAhmiuIJlU6DoYSFOhe2TU1kjlN2MrhdZy/aFFstGqOuyXiXZaC2iNcgrrJOSPLKxa1X2MlmwG
+          67QWsK5XZ/AOH8R7tBDvkcK78dbY2Ejhldx/AO+nhXg/aXrjZeiYTUtaZIWNrtVDJl4UUqzNR/yv
+          GDvkGjSf2ep31oxqy0SEHVDVBh0HfDRGFvPCx77SOtvJ9gNoqh9PrBtaKOj+hmD/RcGiORBYrJFJ
+          EUzTulFexQVaJZNVMizOKNsBWkdANXhQCWs1HrWfWqMEaQlV+LXtkirzzHLYGHWr/nmvreb1Xc3z
+          iTXX0lhMHLUkOunQZlf7PRn1801Z34WqhCn7ol0PHDHkizlDfr11nENrZNR0XIY6DkerhaNepsj5
+          RgpmJ/XQan2Z40igQgQG1oFOGGCgqidhdFVoHNy3WGd0QOxV3W6Fr5LGgY7hsNxbTbnYEejgLuzR
+          /wP7NJnyIKzgDvuxaBPiOMYSd55diH9eU3mFonT1n2M6poWiim8uksGNdscvp44uxjkwuX9Dmxli
+          z5pOfWpxM6d7SGXTCsC9VFV3uhAIiCfaOT8+Xo1WbJUUEutRjOLZVd0q7pMeyByDx+Lh7cE+HVq3
+          jAN3gR8D/nIo6OBaHuKpQDJ4t8gAHA5BYW3BlZGc9FUgDWEAnhloP75PIYoBQwAWRkrLHhozazzA
+          qcQ/JRvRQrNtduu9xtFVr33SuuqcflzFUFVWN69ksbBplMkK6NVW46rbOruCv8XEQjxis1TcEu/V
+          9z70SYDyQUovOwbGJG+3tuae/+NzfP73Fu//ytXNrTdk62XJ0vAXP//T+3/yolkgD9z/VNYr1en+
+          Y7vK+kZ5mf/xKvAj5n/sn3eax604AQQUtUq1yEVP0+SPtnkGuI+ZkAnPbzRt2O6YvfrxsUrIgPal
+          Y9YPwBKXsJYG1LNpeM2VwH0vPYR0h1xycd4OH6ZtMzNNosrjZlwLY8AsPYjqHH2kfuVyfjP2Fyae
+          9BVlakHUua9nuWvAq9e0Vsv9y98KrcbRKZit3lG7c1gc3TgsIGt+jAemfQgVV832WTFj1sfgOdAg
+          USBChK1Os3gPu+1DVCqDO31D/PgxStOzbXW0rfElR/7e0vDXA63/swVp+ExjPHT/v1FO6P8tvP/b
+          Wq9sLPX/a0B845WU0645ywmJq7F0Q9OnNvj3s21CjVmKHtRNWvr+6j7DkRqZHRlQHXWZfUODdHjf
+          pK5KrdvTMd33XsWfF7T8J9T7C4zxkP9XWZ/1/zfKEC4s5f8VYOfd55FLbnVO326+YpTzYOxt7kCM
+          vZs/7x2s/ZZ/t5fb+aV52uh96raI9gG65/vH7QbJr5VKeBxPS6Vmr0m6x22zh8ezpVKrkyf5oZR+
+          rVTCa22dPQROHjYExRFwnwbyDqV9DToYjnTyMIzGniIHSh1myz0Vfu/c0Ls9xa07JXzUhdP6uI32
+          nhKNVI1QBxZ7kY+2UwoL0n1t6rpzeqJ+8m4aqkFmX4dKi83rnan15iBiNvfmoMEqw/eu5/UUSeRp
+          DDIY09JMe9fq07kUx7kh6cF2SnrNp3/Vzu0tNfFPBov8v9EzjfGA/q+WNzYS+n9d+X/ry/zvV4HI
+          ZcvPCQHy35QTpS43H8iIyko0uj+yuo3tmPUgsO4wKyRyM0XqWnZanLrcSLSOMjzwrDz2VcVBwEdd
+          VFjqIvZ9HsfPE2CEayrVdfRl8j4hzEVJoJ3NSZn6xL9b7pjWClB8i08k7lMrJJzl5IxCwqdrCYpY
+          kR038ENjGV/mQYt8Ik/lF/g9vZnWyJ50Ma0ewwEuHDy81glmNT2ngaYDRg3baM648rmQha/LZitG
+          K6iu2y3n3gK+yGI947Iwh9xmXLRO1yRkmlvyrraQvDAtIq9TEEolsgZAMOYhlhemOqrMyygQIgWP
+          Ex/jqjVXH7oQwDhiAl2mMMWxqLAAxEzqQ191S/fQ0iJDvbduwYnBm+ECOzVJZRMvZVeKSRmLqAGJ
+          HbDrcaBFecUeXKs1za6+n/GCAH0MnfMBbY7ZiElAUUnXD6IE9RhzmLKuFkjoHwmc2VEjWfFvyG7q
+          5m5K6kzTGTZITaQGJCUG828MJ4xHgUJUH9M6rX2A9wXou/QQNR+3GCYgqVP71DLxFRxQjGoAnaei
+          VVBC1fiKUtjCOdMLG4S3X84BUC+G2BRkpRap0zikPqMCOI+s7EHHQD0LUu+2r+q/19vH9f3jVoFx
+          UcDdj7f+Qg+AV2DIcenx6w9OBpkrHAligbEnMaexPKu72pKOIEC4ZY7aMsynCvsMWCBCXWSwRKuE
+          LrzwiW15ePio20VZiPEttU5AvEwPCr3ch7okpnRkYXQR1P5ZiJqshPnQHbMVBBzIpkGQlBdFm2qT
+          HhghxiFGwHWxyXL4xBOY51XTWmBkfW6yUa1aLhvlBPdF2R+OTv0Ikf2j2zo8oyHfKaYtKOyrpGz8
+          tlXcThPmqPSAWbq+5Y46JVTPqGdjOUqaITXVQWZqy/0++5y7iiMH91Kl0s0fZcWizlGy8ZfLaZpx
+          uKvF6UYmCtnoOtrRQuPwALhPFvXv6A5fFxJMHITGiVyZVTJMlg0pux7K7VQnNRw0Oml3ChXU3iHq
+          Ejmp/3tBpdYUk4mu2BpfgzNiYUT8EU4ThiGeUDk8+KxyeCZkRQ+D5ISPxSgj/DCw/CGzhZrtGfVA
+          RlXSZpgEmV09yxEwUs0TaXt6EUzTTOrKYgglhZkYVcLkZ9BwtvycFMYLXHwnsCZtD1OSaonMJFgq
+          +M8T0UrDk17f4uXsBiuNrHJkvsqwPq9PFtARv6WnC5K8Hs3SUaLM9w5NlvAKoON/8AT4OMAT/ZcY
+          41vyPzbV+1/r1Up5mf/xGjC7/21vwJ/7IuCh8/+N9en7v5tlzP/Y3Npanv+8CvyM5/+NA5210cR3
+          XriPJ0ln6lXB5J1AeFpNvZmD6ySC1mdqjyU6gxk9sy8JUv3bDgytbHxG/znm1n8IJwjgNGc0/NhC
+          BvqqUV6ABX2Gx80p/CBE787PQrDfaR4v6Dyf3EomuR0gh3k28y1XhVzZJC+6M1leQDwNZvU/rvXr
+          6v9K+e3byoz936xWlt9/eBX4GfU/nvykVIWFx1qJy8v0fXDcL+NeN6lpuuZhwMd+9uVujCTrtjSJ
+          Jf3S/AJEA2AoGvQgPl1EU+ocWPK5b+cbpIfhMb7q6VDBrj3CPUzW51xQYhGfqQ/0kEHAR7p7eHa8
+          qt6tl2OP6nR69To/zJBPjIzr5VDZPn2lzQmT9vCJS93QXyLQ812AB/5fgCU8DVrQPzyiz8IxsFyR
+          ulAvzeQiPHaB9sdS4psZT1sgvf1q068tNJx3C7DpV10XoJveIcxnjR9j4mfqdERLzVNmnDjdeUlp
+          eA69Y6LkvuC+mC4etD+VIfVrpYF6de7REqtfuHucwAbUcvfwvdSdknq833nEMjlCtS6jFzuvn/V5
+          br/NjI4/1s6c+pbN5CL1sHhP1FuOT9mSRSu7cEfWH7UjGeP9WPLc5YKpS9NfrZG/TfCknxTwJYI1
+          NNbFpzoW8YnzgEnCuvhiB6lslSpVg9SdP8Cw4sWA+nAEOhwOx6/ncAleA7Qb+/pGWvkRofvxo2ue
+          j3ic/2juDt8Tfwp/r1cfyeG/PVbprGf1/LF25UhdrTxxW46esC3q5fxHbcv65iO3pfrD70qP+4QP
+          BoI+dWc+PUVgHm8RHrcvi6TlRU3C823+cwRV+/jKPeFjGX3WR32wgITfo1lkdxZzxPRTI88bab2O
+          tf4qm5r4kJ76Nq76nF5A9ScziXoJXX/eBX/iZ7fQvqqUFoKvpD9gQ3dKiWMORZRkMvvkOiNpe3lO
+          uoQlLGEJS1jCEpawhCUsYQlLWMISlrCEJSxhCUtYwhKW8NeA/wNjcwldAHgAAA==
+          B64
+          tar xzf src.tgz
+          rm -f src.tgz
+          echo "--- extracted tree ---"
+          ls -R
+
+      - name: Install ldid
+        run: brew install ldid || brew install xerub/ldid/ldid
+
+      - name: Install Theos (roothide) + iOS SDK
+        run: |
+          set -e
+          export THEOS=$HOME/theos
+          git clone --quiet --recursive https://github.com/roothide/theos.git "$THEOS"
+          echo "THEOS=$THEOS" >> "$GITHUB_ENV"
+          mkdir -p "$THEOS/sdks"
+          git clone -n --depth=1 --filter=tree:0 https://github.com/theos/sdks.git /tmp/sdks
+          cd /tmp/sdks
+          git sparse-checkout set --no-cone iPhoneOS16.5.sdk
+          git checkout
+          cp -r iPhoneOS16.5.sdk "$THEOS/sdks/"
+          ls "$THEOS/sdks"
+
+      - name: Build package
+        run: |
+          set -e
+          make clean || true
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=roothide
+          ls -la packages/
+
+      - name: Upload .deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: taytisland-deb
+          path: packages/*.deb
